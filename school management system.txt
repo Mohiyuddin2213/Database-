@@ -1,0 +1,112 @@
+
+
+CREATE TABLE Teacher (
+    Teacher_ID INT PRIMARY KEY,
+    First_Name VARCHAR(50),
+    Last_Name VARCHAR(50),
+    Phone_Number VARCHAR(15),
+    Email VARCHAR(100)
+);
+
+
+CREATE TABLE Class (
+    Class_ID INT PRIMARY KEY,
+    Class_Name VARCHAR(50),
+    Section VARCHAR(10),
+    Teacher_ID INT,
+    FOREIGN KEY (Teacher_ID) REFERENCES Teacher(Teacher_ID)
+);
+
+
+CREATE TABLE Subject (
+    Subject_ID INT PRIMARY KEY,
+    Subject_Name VARCHAR(50),
+    Class_ID INT,
+    FOREIGN KEY (Class_ID) REFERENCES Class(Class_ID)
+);
+
+
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    First_Name VARCHAR(50),
+    Last_Name VARCHAR(50),
+    Date_of_Birth DATE,
+    Gender VARCHAR(10),
+    Address TEXT,
+    Phone_Number VARCHAR(15),
+    Email VARCHAR(100),
+    Class_ID INT,
+    FOREIGN KEY (Class_ID) REFERENCES Class(Class_ID)
+);
+
+
+CREATE TABLE Enrollment (
+    Enrollment_ID INT PRIMARY KEY,
+    Student_ID INT,
+    Subject_ID INT,
+    Enrollment_Date DATE,
+    FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID),
+    FOREIGN KEY (Subject_ID) REFERENCES Subject(Subject_ID)
+);
+
+
+CREATE TABLE Exam (
+    Exam_ID INT PRIMARY KEY,
+    Subject_ID INT,
+    Exam_Date DATE,
+    Max_Marks INT,
+    FOREIGN KEY (Subject_ID) REFERENCES Subject(Subject_ID)
+);
+
+
+CREATE TABLE Result (
+    Result_ID INT PRIMARY KEY,
+    Student_ID INT,
+    Exam_ID INT,
+    Marks_Obtained INT,
+    FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID),
+    FOREIGN KEY (Exam_ID) REFERENCES Exam(Exam_ID)
+);
+
+INSERT INTO Teacher (Teacher_ID, First_Name, Last_Name, Phone_Number, Email) VALUES
+(1, 'Alice', 'Smith', '1234567890', 'alice.smith@example.com'),
+(2, 'Bob', 'Johnson', '0987654321', 'bob.johnson@example.com');
+
+
+INSERT INTO Class (Class_ID, Class_Name, Section, Teacher_ID) VALUES
+(101, 'Grade 10', 'A', 1),
+(102, 'Grade 10', 'B', 2);
+
+
+INSERT INTO Subject (Subject_ID, Subject_Name, Class_ID) VALUES
+(201, 'Mathematics', 101),
+(202, 'Science', 101),
+(203, 'English', 102);
+
+
+INSERT INTO Student (Student_ID, First_Name, Last_Name, Date_of_Birth, Gender, Address, Phone_Number, Email, Class_ID) VALUES
+(301, 'John', 'Doe', '2007-05-10', 'Male', '123 Main St', '5551234567', 'john.doe@example.com', 101),
+(302, 'Jane', 'Doe', '2007-07-22', 'Female', '456 Elm St', '5559876543', 'jane.doe@example.com', 102);
+
+
+INSERT INTO Enrollment (Enrollment_ID, Student_ID, Subject_ID, Enrollment_Date) VALUES
+(401, 301, 201, '2023-08-01'),
+(402, 301, 202, '2023-08-01'),
+(403, 302, 203, '2023-08-01');
+
+
+INSERT INTO Exam (Exam_ID, Subject_ID, Exam_Date, Max_Marks) VALUES
+(501, 201, '2023-12-10', 100),
+(502, 202, '2023-12-11', 100),
+(503, 203, '2023-12-12', 100);
+
+
+INSERT INTO Result (Result_ID, Student_ID, Exam_ID, Marks_Obtained) VALUES
+(601, 301, 501, 85),
+(602, 301, 502, 90),
+(603, 302, 503, 88);
+
+SELECT * FROM Teacher;
+SELECT * FROM Class;
+SELECT * FROM Subject;
+SELECT * FROM Enrollment;
